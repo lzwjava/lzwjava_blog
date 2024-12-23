@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter/services.dart';
 
 class BlogPostPage extends StatefulWidget {
   final String postName;
@@ -37,17 +37,9 @@ class _BlogPostPageState extends State<BlogPostPage> {
         padding: const EdgeInsets.all(16),
         child: _markdownContent.isEmpty
             ? const Center(child: CircularProgressIndicator())
-            : Markdown(
-                data: _markdownContent,
-                imageBuilder: (uri, title, alt) {
-                  // Dynamically load images based on the uri provided in the Markdown
-                  return Image.asset(
-                    '$uri', // Dynamically resolve the image path from the URI in the Markdown
-                    width: 100, // Set the image width
-                    height: 100, // Set the image height
-                    fit: BoxFit.cover,
-                  );
-                },
+            : Text(
+                _markdownContent,
+                style: TextStyle(fontSize: 16, fontFamily: 'Roboto'),
               ),
       ),
     );
