@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // For loading assets
-import 'dart:convert'; // For JSON decoding
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
 void main() {
   runApp(MyApp());
@@ -15,21 +15,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BlogListPage(), // Blog list page as the home screen
+      home: BlogListPage(),
     );
   }
 }
 
 class BlogListPage extends StatelessWidget {
-  // Function to load the list of post filenames from the JSON file
   Future<List<String>> _loadPosts() async {
-    // Load the JSON file from assets
     String jsonString = await rootBundle.loadString('../assets/posts.json');
-
-    // Parse the JSON string into a List of Strings
     List<dynamic> jsonList = jsonDecode(jsonString);
-
-    // Convert the List<dynamic> to a List<String>
     return jsonList.cast<String>();
   }
 
