@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_markdown: ^0.7.4+3
   path_provider: ^2.0.11
+  yaml: ^3.0.0
 
 dev_dependencies:
   flutter_test:

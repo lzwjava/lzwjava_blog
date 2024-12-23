@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class BlogPostPage extends StatefulWidget {
   final String postName;
@@ -33,15 +34,11 @@ class _BlogPostPageState extends State<BlogPostPage> {
       appBar: AppBar(
         title: Text(widget.postName),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: _markdownContent.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : Text(
-                _markdownContent,
-                style: TextStyle(fontSize: 16, fontFamily: 'Roboto'),
-              ),
-      ),
+      body: _markdownContent.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : Markdown(
+              data: _markdownContent,
+            ),
     );
   }
 }

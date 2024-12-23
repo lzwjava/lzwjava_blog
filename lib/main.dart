@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'blog_list_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
