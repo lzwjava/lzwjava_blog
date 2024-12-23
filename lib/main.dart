@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For loading assets
+import 'dart:convert'; // For JSON decoding
 
 void main() {
   runApp(MyApp());
@@ -20,27 +21,16 @@ class MyApp extends StatelessWidget {
 }
 
 class BlogListPage extends StatelessWidget {
-  // Function to read all file names in the _posts directory
+  // Function to load the list of post filenames from the JSON file
   Future<List<String>> _loadPosts() async {
-    final List<String> posts = [];
-    try {
-      // Load the list of file names inside the _posts folder dynamically
-      final assetBundle = rootBundle;
-      final files = await assetBundle.loadString('AssetManifest.json');
-      final assets = Uri.decodeFull(files);
+    // Load the JSON file from assets
+    String jsonString = await rootBundle.loadString('../assets/posts.json');
 
-      // Filter out files inside the _posts folder
-      final postFiles = assets
-          .split('\n')
-          .where((file) => file.startsWith('_posts/'))
-          .toList();
-      for (var file in postFiles) {
-        posts.add(file.replaceAll('_posts/', ''));
-      }
-    } catch (e) {
-      print('Error loading posts: $e');
-    }
-    return posts;
+    // Parse the JSON string into a List of Strings
+    List<dynamic> jsonList = jsonDecode(jsonString);
+
+    // Convert the List<dynamic> to a List<String>
+    return jsonList.cast<String>();
   }
 
   @override
@@ -104,7 +94,7 @@ class _BlogPostPageState extends State<BlogPostPage> {
 
   Future<void> _loadMarkdown() async {
     String content = await DefaultAssetBundle.of(context)
-        .loadString('assets/_posts/${widget.postName}');
+        .loadString('../assets/_posts/${widget.postName}');
     setState(() {
       _markdownContent = content;
     });

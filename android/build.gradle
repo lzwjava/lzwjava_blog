@@ -17,3 +17,27 @@ tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
 
+// Registering the 'generatePostList' task properly
+tasks.register("generatePostList") {
+    doLast {
+        def postsDir = file('../assets/_posts')
+        def outputFile = file('../assets/posts.json')
+
+        // Check if the directory exists
+        if (!postsDir.exists()) {
+            println "Error: _posts directory does not exist"
+            return
+        }
+
+        def postFiles = postsDir.listFiles({ file -> file.name.endsWith('.md') } as FileFilter)
+
+        if (postFiles != null && postFiles.size() > 0) {
+            def postNames = postFiles.collect { it.name }
+            def json = new groovy.json.JsonBuilder(postNames).toString()
+            outputFile.text = json
+            println "Generated JSON file: $outputFile"
+        } else {
+            println "No markdown files found in $postsDir"
+        }
+    }
+}
